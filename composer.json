@@ -1,0 +1,18 @@
+{
+    "config": {
+        "bin-dir": "bin/"
+    },
+
+    "require-dev": {
+        "behat/behat": "^3.3",
+        "beberlei/assert": "^2.7"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "AclLib\\": "src/"
+        }
+    }
+
+
+}
