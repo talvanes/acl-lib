@@ -39,7 +39,7 @@ class AclContext implements Context
         ]);
 
         // todo: start acl
-        $this->acl = new Acl;
+        $this->acl = new Acl($this->db);
     }
 
 
