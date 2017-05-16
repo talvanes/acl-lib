@@ -72,7 +72,15 @@ class AclContext implements Context
      */
     public function thereAreUsers(TableNode $usersTable)
     {
-        throw new PendingException();
+        // prepare PDO statement for insert query
+        $insertStmt = $this->db->prepare("INSERT INTO users (username) VALUES (:username)");
+
+        // insert records into database
+        foreach ($usersTable as $userData) {
+            $insertStmt->execute([
+                'username' => $userData['username'],
+            ]);
+        }
     }
 
     /**
@@ -80,7 +88,15 @@ class AclContext implements Context
      */
     public function thereAreRoles(TableNode $rolesTable)
     {
-        throw new PendingException();
+        // prepare PDO statement for insert query
+        $insertStmt = $this->db->prepare("INSERT INTO roles (name) VALUES (:roleName)");
+
+        // insert records into database
+        foreach ($rolesTable as $roleData) {
+            $insertStmt->execute([
+                'roleName' => $roleData['name'],
+            ]);
+        }
     }
 
     /**
@@ -88,7 +104,15 @@ class AclContext implements Context
      */
     public function thereArePermissions(TableNode $permissionsTable)
     {
-        throw new PendingException();
+        // prepare PDO statement for insert query
+        $insertStmt = $this->db->prepare("INSERT INTO permissions (label) VALUES (:permission)");
+
+        // insert records into database
+        foreach ($permissionsTable as $permissionData) {
+            $insertStmt->execute([
+                'permission' => $permissionData['label'],
+            ]);
+        }
     }
 
     /**
