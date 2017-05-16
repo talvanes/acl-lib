@@ -7,6 +7,8 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 
+use AclLib\Classes\Acl;
+
 /**
  * Defines application features from the specific context.
  */
@@ -27,7 +29,7 @@ class AclContext implements Context
      * @param string $username DB username (default: root)
      * @param string $password DB password (default: '')
      */
-    public function __construct($dsn, $username, $password)
+    public function __construct($dsn, $username = 'root', $password = '')
     {
         // set up database connection
         $this->db = new \PDO($dsn, $username, $password, [
@@ -37,6 +39,7 @@ class AclContext implements Context
         ]);
 
         // todo: start acl
+        $this->acl = new Acl;
     }
 
 

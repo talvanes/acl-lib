@@ -10,4 +10,4 @@ default:
                 - AclContext:
                     username: homestead
                     password: secret
-                    dsn: mysql:host=localhost;dbname=homestead;charset=utf8
+                    dsn: mysql:host=localhost;dbname=acl_project;charset=utf8
