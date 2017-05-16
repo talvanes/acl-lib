@@ -67,6 +67,11 @@ class AclContext implements Context
     }
 
 
+    // todo: grab User class object from username
+    // todo: grab Role class object from role name
+    // todo: grab Permission class object from permission label
+
+
     /**
      * @Given there are users:
      */
