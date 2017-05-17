@@ -1,6 +1,38 @@
-<?php namespace AclLib\Models;
+<?php namespace Talba\AclLib\Models;
 
 class Permission
 {
-    // todo: implement class
+    protected $id;
+    protected $label;
+
+    /**
+     * Permission constructor.
+     *
+     * @public
+     * @param string $label
+     */
+    public function __construct($label)
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * Sets the permission label
+     * @param string $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * Gets the permission label
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
 }

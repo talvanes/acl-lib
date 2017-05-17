@@ -7,7 +7,10 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 
-use AclLib\Classes\Acl;
+use Talba\AclLib\Classes\Acl;
+use Talba\AclLib\Models\User;
+use Talba\AclLib\Models\Role;
+use Talba\AclLib\Models\Permission;
 
 /**
  * Defines application features from the specific context.
@@ -16,6 +19,7 @@ class AclContext implements Context
 {
     protected $db;
     protected $acl;
+    protected $user;
 
     /**
      * Initializes context.
@@ -38,7 +42,7 @@ class AclContext implements Context
             \PDO::ATTR_EMULATE_PREPARES => false,
         ]);
 
-        // todo: start acl
+        // start acl module
         $this->acl = new Acl($this->db);
     }
 
@@ -67,9 +71,29 @@ class AclContext implements Context
     }
 
 
-    // todo: grab User class object from username
-    // todo: grab Role class object from role name
-    // todo: grab Permission class object from permission label
+    /**
+     * @Transform :user
+     */
+    public function castUsernameAsUser($user)
+    {
+        return new User($user);
+    }
+
+    /**
+     * @Transform :role
+     */
+    public function castRoleNameAsRole($role)
+    {
+        return new Role($role);
+    }
+
+    /**
+     * @Transform :permission
+     */
+    public function castPermissionLabelAsPermission($permission)
+    {
+        return new Permission($permission);
+    }
 
 
     /**
@@ -123,7 +147,7 @@ class AclContext implements Context
     /**
      * @Given I am user :user
      */
-    public function iAmUser($user)
+    public function iAmUser(User $user)
     {
         throw new PendingException();
     }
@@ -131,7 +155,7 @@ class AclContext implements Context
     /**
      * @When I check if I belong to role :role
      */
-    public function iCheckIfIBelongToRole($role)
+    public function iCheckIfIBelongToRole(Role $role)
     {
         throw new PendingException();
     }
@@ -139,7 +163,7 @@ class AclContext implements Context
     /**
      * @Then I should be granted access as :role
      */
-    public function iShouldBeGrantedAccessAs($role)
+    public function iShouldBeGrantedAccessAs(Role $role)
     {
         throw new PendingException();
     }
@@ -147,7 +171,7 @@ class AclContext implements Context
     /**
      * @Given I belong to role :role
      */
-    public function iBelongToRole($role)
+    public function iBelongToRole(Role $role)
     {
         throw new PendingException();
     }
@@ -155,7 +179,7 @@ class AclContext implements Context
     /**
      * @Then I should be denied access as :role
      */
-    public function iShouldBeDeniedAccessAs($role)
+    public function iShouldBeDeniedAccessAs(Role $role)
     {
         throw new PendingException();
     }
@@ -163,7 +187,7 @@ class AclContext implements Context
     /**
      * @When I check if I have :permission permission
      */
-    public function iCheckIfIHavePermission($permission)
+    public function iCheckIfIHavePermission(Permission $permission)
     {
         throw new PendingException();
     }
@@ -171,7 +195,7 @@ class AclContext implements Context
     /**
      * @Then I should not perform :permission feature
      */
-    public function iShouldNotPerformFeature($permission)
+    public function iShouldNotPerformFeature(Permission $permission)
     {
         throw new PendingException();
     }
@@ -179,7 +203,7 @@ class AclContext implements Context
     /**
      * @Given I have :permission permission
      */
-    public function iHavePermission($permission)
+    public function iHavePermission(Permission $permission)
     {
         throw new PendingException();
     }
@@ -187,7 +211,7 @@ class AclContext implements Context
     /**
      * @Then I should perform :permission feature
      */
-    public function iShouldPerformFeature($permission)
+    public function iShouldPerformFeature(Permission $permission)
     {
         throw new PendingException();
     }
@@ -195,7 +219,7 @@ class AclContext implements Context
     /**
      * @Given role :role has :permission feature
      */
-    public function roleHasFeature($role, $permission)
+    public function roleHasFeature(Role $role, Permission $permission)
     {
         throw new PendingException();
     }

@@ -1,4 +1,4 @@
-<?php namespace AclLib\Classes;
+<?php namespace Talba\AclLib\Classes;
 
 final class Acl
 {
@@ -6,7 +6,6 @@ final class Acl
 
     /**
      * Acl constructor.
-     *
      * It manages users' roles and permissions.
      *
      * @public
@@ -21,7 +20,7 @@ final class Acl
     /**
      * Checks if user belongs to the role given.
      *
-     * @param mixed  $user An AclLib\Models\User class instance
+     * @param mixed  $user A Talba\AclLib\Models\User class instance
      * @param string $role Role name
      */
     public function is($user, $role)
@@ -32,7 +31,7 @@ final class Acl
     /**
      * Checks if user has the permission given.
      *
-     * @param mixed  $user       An AclLib\Models\User class instance
+     * @param mixed  $user       A Talba\AclLib\Models\User class instance
      * @param string $permission Permission label
      */
     public function can($user, $permission)
@@ -44,7 +43,7 @@ final class Acl
     /**
      * Checks if the role has the permission given.
      *
-     * @param mixed  $role       An AclLib\Models\Role class instance
+     * @param mixed  $role       A Talba\AclLib\Models\Role class instance
      * @param string $permission Permission label
      */
     public function has($role, $permission)

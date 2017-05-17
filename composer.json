@@ -10,7 +10,7 @@
 
     "autoload": {
         "psr-4": {
-            "AclLib\\": "src/"
+            "Talba\\AclLib\\": "src/"
         }
     }
 
