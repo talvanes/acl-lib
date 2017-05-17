@@ -78,7 +78,7 @@ class AclContext implements Context
     {
         $selectStmt = $this->db->prepare("SELECT id, username, role_id as roleId FROM users WHERE username = :username");
         $selectStmt->execute([ 'username' => $user ]);
-        return $selectStmt->fetchObject(User::class);
+        return $selectStmt->fetchObject(User::class, [$user]);
     }
 
     /**
@@ -88,7 +88,7 @@ class AclContext implements Context
     {
         $selectStmt = $this->db->prepare("SELECT id, name FROM roles WHERE name = :role");
         $selectStmt->execute([ 'role' => $role ]);
-        return $selectStmt->fetchObject(Role::class);
+        return $selectStmt->fetchObject(Role::class, [$role]);
     }
 
     /**
@@ -98,7 +98,7 @@ class AclContext implements Context
     {
         $selectStmt = $this->db->prepare("SELECT id, label FROM permissions WHERE label = :permission");
         $selectStmt->execute([ 'permission' => $permission ]);
-        return $selectStmt->fetchObject(Permission::class);
+        return $selectStmt->fetchObject(Permission::class, [$permission]);
     }
 
 
