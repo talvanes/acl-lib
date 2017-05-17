@@ -78,7 +78,11 @@ class AclContext implements Context
     {
         $selectStmt = $this->db->prepare("SELECT id, username, role_id as roleId FROM users WHERE username = :username");
         $selectStmt->execute([ 'username' => $user ]);
-        return $selectStmt->fetchObject(User::class, [$user]);
+        $userInstance = $selectStmt->fetchObject(User::class, [$user]);
+
+        // grab a User instance
+        if (!$userInstance) return new User($user);
+        return $userInstance;
     }
 
     /**
@@ -179,7 +183,7 @@ class AclContext implements Context
      */
     public function iBelongToRole(Role $role)
     {
-        // user {$this->user} belongs to role {$role}
+        // now user {$this->user} belongs to role {$role}
         $this->user->setRole($role);
 
         // update into object on "users" table
