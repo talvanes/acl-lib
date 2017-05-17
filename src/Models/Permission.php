@@ -18,6 +18,7 @@ class Permission
 
     /**
      * Sets the permission label
+     *
      * @param string $label
      * @return $this
      */
@@ -29,10 +30,22 @@ class Permission
 
     /**
      * Gets the permission label
+     *
      * @return string
      */
     public function getLabel()
     {
         return $this->label;
     }
+
+    /**
+     * Gets the permission id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return intval($this->id);
+    }
+
 }

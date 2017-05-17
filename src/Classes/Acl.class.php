@@ -1,5 +1,9 @@
 <?php namespace Talba\AclLib\Classes;
 
+use Talba\AclLib\Models\User;
+use Talba\AclLib\Models\Role;
+use Talba\AclLib\Models\Permission;
+
 final class Acl
 {
     private $db;
@@ -23,7 +27,7 @@ final class Acl
      * @param mixed  $user A Talba\AclLib\Models\User class instance
      * @param string $role Role name
      */
-    public function is($user, $role)
+    public function is(User $user, Role $role)
     {
         // todo: implement method
     }
@@ -34,7 +38,7 @@ final class Acl
      * @param mixed  $user       A Talba\AclLib\Models\User class instance
      * @param string $permission Permission label
      */
-    public function can($user, $permission)
+    public function can(User $user, Permission $permission)
     {
         // todo: implement method
     }
@@ -46,7 +50,7 @@ final class Acl
      * @param mixed  $role       A Talba\AclLib\Models\Role class instance
      * @param string $permission Permission label
      */
-    public function has($role, $permission)
+    public function has(Role $role, Permission $permission)
     {
         // todo: implement method
     }

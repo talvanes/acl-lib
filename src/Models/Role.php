@@ -37,4 +37,14 @@ class Role
     {
         return $this->name;
     }
+
+    /**
+     * Gets the role id.
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return intval($this->id);
+    }
 }

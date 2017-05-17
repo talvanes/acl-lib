@@ -76,7 +76,9 @@ class AclContext implements Context
      */
     public function castUsernameAsUser($user)
     {
-        return new User($user);
+        $selectStmt = $this->db->prepare("SELECT id, username, role_id as roleId FROM users WHERE username = :username");
+        $selectStmt->execute([ 'username' => $user ]);
+        return $selectStmt->fetchObject(User::class);
     }
 
     /**
@@ -84,7 +86,9 @@ class AclContext implements Context
      */
     public function castRoleNameAsRole($role)
     {
-        return new Role($role);
+        $selectStmt = $this->db->prepare("SELECT id, name FROM roles WHERE name = :role");
+        $selectStmt->execute([ 'role' => $role ]);
+        return $selectStmt->fetchObject(Role::class);
     }
 
     /**
@@ -92,7 +96,9 @@ class AclContext implements Context
      */
     public function castPermissionLabelAsPermission($permission)
     {
-        return new Permission($permission);
+        $selectStmt = $this->db->prepare("SELECT id, label FROM permissions WHERE label = :permission");
+        $selectStmt->execute([ 'permission' => $permission ]);
+        return $selectStmt->fetchObject(Permission::class);
     }
 
 
@@ -149,7 +155,7 @@ class AclContext implements Context
      */
     public function iAmUser(User $user)
     {
-        throw new PendingException();
+        $this->user = $user;
     }
 
     /**
@@ -157,7 +163,7 @@ class AclContext implements Context
      */
     public function iCheckIfIBelongToRole(Role $role)
     {
-        throw new PendingException();
+        $this->user->is($role);
     }
 
     /**
@@ -165,7 +171,7 @@ class AclContext implements Context
      */
     public function iShouldBeGrantedAccessAs(Role $role)
     {
-        throw new PendingException();
+        Assert::that($this->user->is($role))->true();
     }
 
     /**
@@ -173,7 +179,13 @@ class AclContext implements Context
      */
     public function iBelongToRole(Role $role)
     {
-        throw new PendingException();
+        // user {$this->user} belongs to role {$role}
+        $this->user->setRole($role);
+
+        // update into object on "users" table
+        $selectStmt = $this->db->prepare("SELECT * FROM users WHERE id = :userId");
+        $selectStmt->setFetchMode(\PDO::FETCH_INTO, $this->user);
+        $this->user = $selectStmt->fetch();
     }
 
     /**
@@ -181,7 +193,7 @@ class AclContext implements Context
      */
     public function iShouldBeDeniedAccessAs(Role $role)
     {
-        throw new PendingException();
+        Assert::that($this->user->is($role))->false();
     }
 
     /**
@@ -189,7 +201,7 @@ class AclContext implements Context
      */
     public function iCheckIfIHavePermission(Permission $permission)
     {
-        throw new PendingException();
+        $this->user->can($permission);
     }
 
     /**
@@ -197,7 +209,7 @@ class AclContext implements Context
      */
     public function iShouldNotPerformFeature(Permission $permission)
     {
-        throw new PendingException();
+        Assert::that($this->user->can($permission))->false();
     }
 
     /**
@@ -205,7 +217,11 @@ class AclContext implements Context
      */
     public function iHavePermission(Permission $permission)
     {
-        throw new PendingException();
+        $insertStmt = $this->db->prepare("INSERT INTO user_permission (user_id, permission_id) VALUES (:userId, :permissionId)");
+        $insertStmt->execute([
+            'userId' => $this->user->getId(),
+            'permissionId' => $permission->getId(),
+        ]);
     }
 
     /**
@@ -213,7 +229,7 @@ class AclContext implements Context
      */
     public function iShouldPerformFeature(Permission $permission)
     {
-        throw new PendingException();
+        Assert::that($this->user->can($permission))->true();
     }
 
     /**
@@ -221,6 +237,10 @@ class AclContext implements Context
      */
     public function roleHasFeature(Role $role, Permission $permission)
     {
-        throw new PendingException();
+        $insertStmt = $this->db->prepare("INSERT INTO role_permission (role_id, permission_id) VALUES (:roleId, :permissionId)");
+        $insertStmt->execute([
+            'roleId' => $role->getId(),
+            'permissionId' => $permission->getId(),
+        ]);
     }
 }
